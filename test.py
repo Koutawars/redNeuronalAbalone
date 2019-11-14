@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import  train_test_split
 
 data = pd.read_csv('abalone.csv')
 # cambiar de texto a datos
@@ -17,4 +18,23 @@ data['Age'] = data['Rings'] + 1.5
 data.drop('Rings', axis = 1, inplace = True)
 
 
-print(data.head())
+# creación del modelo
+model = MLPRegressor(hidden_layer_sizes=(5,),
+                                activation='relu',
+                                solver='adam',
+                                learning_rate='adaptive',
+                                max_iter=1000,
+                                learning_rate_init=0.01,
+                                alpha=0.01)
+
+y = data['Age']
+X = data.drop('Age', axis=1)
+
+# Prueba = 20% y entranamiento 80%
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+
+#model.fit()
+
+
+print(y_train)
