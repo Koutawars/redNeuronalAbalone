@@ -35,8 +35,8 @@ model = MLPRegressor(hidden_layer_sizes=(5,),
 
 # entrenar el modelo
 model.fit(X_train, y_train)
-
-predi = model.predict(X_test)
-score = model.score(X_test, predi)
-
+# trata de predecir
+Y_predi = model.predict(X_test)
+# revisa el puntaje de la predicción
+score = model.score(X_test, y_test)
 print(score)
