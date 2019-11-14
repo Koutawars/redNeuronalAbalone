@@ -17,6 +17,12 @@ data['Age'] = data['Rings'] + 1.5
 # quitar los anillos
 data.drop('Rings', axis = 1, inplace = True)
 
+# separa la columna de la edad lo que se va a predecir
+y = data['Age']
+X = data.drop('Age', axis=1)
+
+# Prueba = 20% y entranmiento 80%
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # creación del modelo
 model = MLPRegressor(hidden_layer_sizes=(5,),
@@ -27,14 +33,10 @@ model = MLPRegressor(hidden_layer_sizes=(5,),
                                 learning_rate_init=0.01,
                                 alpha=0.01)
 
-y = data['Age']
-X = data.drop('Age', axis=1)
+# entrenar el modelo
+model.fit(X_train, y_train)
 
-# Prueba = 20% y entranamiento 80%
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+predi = model.predict(X_test)
+score = model.score(X_test, predi)
 
-
-#model.fit()
-
-
-print(y_train)
+print(score)
