@@ -14,6 +14,7 @@ from sklearn.model_selection import  train_test_split
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
+from sklearn.metrics import accuracy_score
 
 
 
@@ -87,13 +88,11 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 y_train = LabelEncoder().fit_transform(y_train.tolist())
 # creación del modelo
 param_grid = [{
-    'hidden_layer_sizes' : [(18, 3)], 
-    'max_iter':[100], 
-    'momentum': [0.7, 0.5],
-    'solver': ['lbfgs', 'sgd'], 
+    'hidden_layer_sizes' : [(18, 3), (19, 3), (17, 3)], 
+    'max_iter':[7000], 
+    'solver': ['lbfgs'], 
     'activation' : ['tanh'], 
-    'alpha': [0.05, 0.01],
-    'shuffle': [False]
+    'alpha': [0.08]
     }]
 model = MLPClassifier()
 grid_search = GridSearchCV(model, param_grid, cv=5, scoring='neg_mean_squared_error', iid=False)
@@ -101,7 +100,7 @@ grid_search.fit(X_train, y_train)
 print(grid_search.best_params_)
 
 '''
-model = MLPClassifier(max_iter = 1000, activation = 'tanh', hidden_layer_sizes=(18, 3),solver="lbfgs")
+model = MLPClassifier(alpha = 0.08, max_iter = 7000, activation = 'tanh', hidden_layer_sizes=(18, 3),solver="lbfgs")
 
 # entrenar el modelo
 model.fit(X_train, y_train)
@@ -110,8 +109,6 @@ Y_predi = model.predict(X_test)
 # revisa el puntaje de la predicción
 score = model.score(X_test, y_test)
 print(score)
-
-print(accuracy_score(y_test, Y_predi))
 print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test, Y_predi))
 
 
