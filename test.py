@@ -84,7 +84,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
-'''
 y_train = LabelEncoder().fit_transform(y_train.tolist())
 # creación del modelo
 param_grid = [{
@@ -131,3 +130,4 @@ plt.show()
 plt.figure()
 plt.scatter(X_test['Whole weight'], X_test['Diameter'], c=lista2, label='Prediction')
 plt.show()
+'''
