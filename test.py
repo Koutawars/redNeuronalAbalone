@@ -60,8 +60,8 @@ plt.show()
 sns.boxplot(data = data,width=0.5,fliersize=5)
 plt.show()
 '''
-# heatmap
 '''
+# heatmap
 numerical_features = data.select_dtypes(include=[np.number]).columns
 plt.figure(figsize=(20,7))
 sns.heatmap(data[numerical_features].corr(), annot=True)
@@ -84,24 +84,27 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
+'''
 y_train = LabelEncoder().fit_transform(y_train.tolist())
 # creación del modelo
-param_grid = [{
-    'hidden_layer_sizes' : [(19, 4), (19, 5)], 
-    'max_iter':[100], 
-    'solver': ['lbfgs'], 
-    'activation' : ['tanh'], 
-    'alpha': [0.08]
-    }]
+param_grid = [
+        {
+            'activation' : ['logistic'],
+            'solver' : ['lbfgs'],
+            'hidden_layer_sizes': [
+             (7,)
+             ]
+        }
+       ]
 model = MLPClassifier()
-grid_search = GridSearchCV(model, param_grid, cv=5, scoring='neg_mean_squared_error', iid=False)
+grid_search = GridSearchCV(model, param_grid, cv=3, scoring='accuracy')
 grid_search.fit(X_train, y_train)
 print(grid_search.best_params_)
 
 '''
 print("CARGAR")
 
-model = MLPClassifier(alpha = 0.0001, max_iter = 2000, hidden_layer_sizes=(30, 20, 5))
+model = MLPClassifier(activation = 'logistic', solver = 'lbfgs', alpha = 0.01, max_iter = 2000, hidden_layer_sizes=(7, ))
 
 # entrenar el modelo
 model.fit(X_train, y_train)
@@ -114,7 +117,6 @@ print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test, Y_predi))
 
 
 def pintar(a):
-
     if(a == 'joven'):
         return 'r'
     if(a == 'infante'):
@@ -130,4 +132,3 @@ plt.show()
 plt.figure()
 plt.scatter(X_test['Whole weight'], X_test['Diameter'], c=lista2, label='Prediction')
 plt.show()
-'''
