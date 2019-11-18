@@ -74,7 +74,6 @@ sns.set(rc={'figure.figsize':(2,5)})
 plt.show()
 '''
 
-
 # separa la columna de la edad lo que se va a predecir
 y = data['Age']
 X = data.drop('Age', axis=1)
@@ -85,11 +84,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
 
+'''
 y_train = LabelEncoder().fit_transform(y_train.tolist())
 # creación del modelo
 param_grid = [{
-    'hidden_layer_sizes' : [(18, 3), (19, 3), (17, 3)], 
-    'max_iter':[7000], 
+    'hidden_layer_sizes' : [(19, 4), (19, 5)], 
+    'max_iter':[100], 
     'solver': ['lbfgs'], 
     'activation' : ['tanh'], 
     'alpha': [0.08]
@@ -100,7 +100,9 @@ grid_search.fit(X_train, y_train)
 print(grid_search.best_params_)
 
 '''
-model = MLPClassifier(alpha = 0.08, max_iter = 7000, activation = 'tanh', hidden_layer_sizes=(18, 3),solver="lbfgs")
+print("CARGAR")
+
+model = MLPClassifier(alpha = 0.0001, max_iter = 2000, hidden_layer_sizes=(30, 20, 5))
 
 # entrenar el modelo
 model.fit(X_train, y_train)
@@ -129,4 +131,3 @@ plt.show()
 plt.figure()
 plt.scatter(X_test['Whole weight'], X_test['Diameter'], c=lista2, label='Prediction')
 plt.show()
-'''
